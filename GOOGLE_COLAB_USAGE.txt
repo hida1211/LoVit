@@ -1,0 +1,26 @@
+1. Google Colab (https://colab.research.google.com/) を開き、新しいノートブックを作成します。
+2. Google Drive をマウントします:
+   ```python
+   from google.colab import drive
+   drive.mount('/content/drive')
+   ```
+3. このリポジトリをクローンして作業ディレクトリを移動します:
+   ```bash
+   !git clone https://github.com/<your-username>/LoVit.git
+   %cd LoVit
+   ```
+4. 依存ライブラリをインストールします:
+   ```bash
+   !pip install -r content/LoViT_APTOS/requirements.txt
+   ```
+5. Google Drive 上に APTOS データセットを配置し、`content/LoViT_APTOS` 以下のスクリプトに記載されたパスを自分の環境に合わせて修正します。
+6. `train.py` または `train_lovit.py` を実行して学習を開始します:
+   ```bash
+   !python content/LoViT_APTOS/train.py
+   # あるいは
+   !python content/LoViT_APTOS/train_lovit.py
+   ```
+7. 学習後、`infer.py` を用いて推論を行えます:
+   ```bash
+   !python content/LoViT_APTOS/infer.py
+   ```
