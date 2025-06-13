@@ -13,7 +13,22 @@
    ```bash
    !pip install -r requirements.txt
    ```
-5. Google Drive 上に APTOS データセットを配置し、スクリプトに記載されたパスを自分の環境に合わせて修正します。
+5. Google Drive 上に APTOS データセットを次の構成で配置します。
+   データセットのルートは `/content/drive/MyDrive/kaggle/APTOS` を想定しています。
+
+   ```text
+   APTOS/
+   ├── APTOS_train-val_annotation.csv
+   ├── aptos_videos/           # 訓練/検証用の動画
+   ├── meta/
+   │   └── video_fps.csv
+   ├── APTOS_val2.csv
+   └── val2_videos/
+       └── aptos_val2/
+           └── frames/        # 推論用のフレーム画像
+   ```
+
+   各スクリプト冒頭のパスを上記ディレクトリに合わせて適宜変更してください。
 6. `train.py` または `train_lovit.py` を実行して学習を開始します:
    ```bash
    !python train.py
