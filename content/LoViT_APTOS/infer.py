@@ -20,7 +20,7 @@ for vname, g in pd.read_csv(CSV_VAL).groupby('Video_name'):
     for _, r in g.sort_values('Frame_id').iterrows():
         img = Image.open(os.path.join(FRAME_ROOT, r.Frame_id))
         clip = tf(img).unsqueeze(0).unsqueeze(0).cuda()   # shape (1,1,3,H,W)
-        pred = lovit(clip).argmax(-1).item()
+        pred = lovit(clip)[0].argmax(-1).item()
         rows.append(pred)
 out = pd.read_csv(CSV_VAL).copy()
 out['Predict_phase_id'] = rows

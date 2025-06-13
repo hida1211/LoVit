@@ -1,6 +1,6 @@
 import torch, torch.nn as nn
 from extractor import RichExtractor
-from ltrans import LTrans
+from ltrans import CascadedLTrans
 from ginformer import GInformer
 from head import FusionHead
 
@@ -9,9 +9,8 @@ class LoViT(nn.Module):
         super().__init__()
         self.extractor = RichExtractor(n_classes)     # 先に別フェーズで学習
         self.extractor_head = nn.Identity()          # 推評時 logits 無視
-        self.ls = LTrans(d_model, win=32)            # dry‐run win を短く
-        self.ll = LTrans(d_model, win=64)
-        self.g  = GInformer(d_model)
+        self.ls = CascadedLTrans(d_model=d_model, nhead=8)
+        self.g  = GInformer(layers=2, d_model=d_model)
         self.head = FusionHead(d_model, n_classes)
 
     @torch.no_grad()
@@ -24,6 +23,7 @@ class LoViT(nn.Module):
         if not hasattr(self, 'buffer'): self.buffer=[]
         self.buffer.append(e_t)                       # list of (B,D)
         seq = torch.stack(self.buffer,1)              # (B,t,D)
-        s = self.ls(seq); l = self.ll(seq); g = self.g(seq)
-        out = self.head(s,l,g)
-        return out
+        s, l = self.ls(seq)
+        g = self.g(seq)
+        p_t, h_t = self.head(s, l, g)
+        return p_t, h_t
