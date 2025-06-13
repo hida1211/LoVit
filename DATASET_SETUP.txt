@@ -1,0 +1,17 @@
+APTOS データセットの配置
+========================
+
+学習および推論を行うために、Google Drive 上に以下の構成でデータセットを配置してください。
+
+```
+<Google Drive>/kaggle/APTOS/
+├── APTOS_train-val_annotation.csv   # 学習用アノテーション
+├── APTOS_val2.csv                   # 推論用 CSV (任意)
+├── aptos_videos/                    # 学習用動画ファイル (.mp4)
+├── val2_videos/aptos_val2/frames/   # 推論時に用いるフレーム画像
+└── meta/
+    └── video_fps.csv                # 各動画の FPS 情報
+```
+
+各スクリプトに書かれているパスは上記を前提としているため、
+ご自身の Drive 内で異なる場所に配置した場合は該当のパスを変更してください。
